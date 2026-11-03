@@ -6,6 +6,10 @@ incidents that broke the same surface before, work that depends on it, concurren
 changes, the epic it could derail — scores the risk 0–100 with every point explained,
 and tells you exactly who to loop in.
 
+[![Blast Radius demo video](demo/brand/out/thumbnail.png)](https://www.youtube.com/watch?v=9s7_xCw2VzU)
+
+▶ **[Watch the demo (2½ min)](https://www.youtube.com/watch?v=9s7_xCw2VzU)**
+
 Codegeist category: **Apps for Software Teams**.
 
 ## Where it shows up
