@@ -8,7 +8,8 @@
     "test": "vitest run",
     "lint": "forge lint",
     "seed": "node scripts/seed.mjs",
-    "register-queries": "node scripts/register-queries.mjs"
+    "register-queries": "node scripts/register-queries.mjs",
+    "narrate": "node --env-file=.env.local demo/tts.mjs"
   },
   "dependencies": {
     "@forge/api": "^6.0.0",
@@ -18,6 +19,7 @@
     "react": "^18.3.1"
   },
   "devDependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.75.0",
     "vitest": "^3.2.4"
   }
 }

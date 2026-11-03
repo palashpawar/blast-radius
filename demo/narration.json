@@ -1,0 +1,46 @@
+{
+  "voice_id": "JBFqnCBsd6RMkjVDRZzb",
+  "model_id": "eleven_v4",
+  "scenes": [
+    {
+      "id": "01-title",
+      "kind": "card",
+      "text": "Every engineer has shipped a small change that turned out not to be small. Blast Radius is a Forge app for Jira that tells you what a change will hit, before it ships."
+    },
+    {
+      "id": "02-panel",
+      "kind": "jira",
+      "text": "Here's a real-looking ticket: retry payment authorization when the gateway times out. Open the Blast Radius panel, and it scores the change seventy-seven out of a hundred. Critical. And every point is explained. Two incidents have hit this exact surface: a critical double-charge, and a checkout latency spike that is still open right now. This work blocks another ticket, a teammate is refactoring the same gateway client in parallel, and the parent epic, Black Friday readiness, is due in nine days."
+    },
+    {
+      "id": "03-people",
+      "kind": "jira",
+      "text": "It also tells you who to loop in, and why: the component lead, the people who responded to those incidents, and the owners of dependent work. One click posts the whole report to the ticket, with those people mentioned."
+    },
+    {
+      "id": "04-contrast",
+      "kind": "jira",
+      "text": "Compare that to a docs typo fix. No incident history, nothing downstream. Low blast radius. Ship it."
+    },
+    {
+      "id": "05-agent",
+      "kind": "jira",
+      "text": "Blast Radius is also a Rovo agent, right in the ticket's Agents menu. Ask it what the blast radius is, and it calls the same analysis as a Rovo action, then answers with the verdict, what broke here before, who to loop in, and one concrete step to de-risk the change: wait until the open incident is resolved."
+    },
+    {
+      "id": "06-mcp",
+      "kind": "terminal",
+      "text": "And because the actions are exposed through a Forge Rovo MCP server, any MCP client can use them. Here, Claude Code calls analyze blast radius on the same ticket and gets the same answer, straight from Jira."
+    },
+    {
+      "id": "07-how",
+      "kind": "card",
+      "text": "Under the hood: one Forge app with an issue panel, a Rovo agent, four actions and an MCP server. It reads Jira and Jira Service Management for incidents, links, epics and component leads, and walks the Teamwork Graph through persisted Cypher queries, from work items to pull requests, services and deployments. The score is a transparent, capped sum of factors, so engineers can argue with it."
+    },
+    {
+      "id": "08-close",
+      "kind": "card",
+      "text": "Blast Radius. Know what you're about to break, before you break it."
+    }
+  ]
+}

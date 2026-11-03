@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { width: 1920px; height: 1080px; background: #0b1020; display: flex; align-items: center; justify-content: center;
+         font-family: "SF Mono", Menlo, monospace; }
+  .win { width: 1640px; height: 880px; background: #12182b; border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.5);
+         border: 1px solid #24304f; overflow: hidden; display: flex; flex-direction: column; }
+  .bar { height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 22px; background: #0f1426; border-bottom: 1px solid #24304f; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; }
+  .title { margin-left: 18px; color: #9aa4bf; font-size: 20px; font-family: -apple-system, system-ui, sans-serif; }
+  .body { padding: 34px 40px; color: #e6e9f2; font-size: 27px; line-height: 1.55; white-space: pre-wrap; overflow: hidden; }
+  .prompt { color: #36b37e; }
+  .dim { color: #7d88a6; }
+  .tool { color: #ffb38a; }
+  .key { color: #8fb8ff; }
+  .caret { display: inline-block; width: 14px; height: 30px; background: #e6e9f2; vertical-align: -5px; animation: b 1s steps(1) infinite; }
+  @keyframes b { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+<div class="win">
+  <div class="bar">
+    <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>
+    <span class="title">blast-radius — Claude Code · MCP: blast-radius (mcp.atlassian.com/forge)</span>
+  </div>
+  <div class="body" id="out"></div>
+</div>
+<script>
+  // Filled by demo/mcp-scene.mjs: window.SCENE = { command, lines: [...] }
+  const out = document.getElementById('out');
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const color = (l) => esc(l)
+    .replace(/(mcp__[\w-]+)/g, '<span class="tool">$1</span>')
+    .replace(/^(\s*[-•]?\s*\*?\*?)(score|level|headline|incidents?|tool)(\*?\*?:)/i, '$1<span class="key">$2</span>$3');
+  window.play = async ({ command, lines, typeMs = 38, lineMs = 420 }) => {
+    out.innerHTML = '<span class="prompt">❯ </span><span id="cmd"></span><span class="caret"></span>';
+    const cmd = document.getElementById('cmd');
+    for (const ch of command) { cmd.textContent += ch; await new Promise((r) => setTimeout(r, typeMs)); }
+    await new Promise((r) => setTimeout(r, 600));
+    out.querySelector('.caret').remove();
+    out.innerHTML += '\n<span class="dim">⏺ calling blast-radius MCP server…</span>\n\n';
+    await new Promise((r) => setTimeout(r, 1400));
+    for (const l of lines) { out.innerHTML += color(l) + '\n'; await new Promise((r) => setTimeout(r, lineMs)); }
+    out.innerHTML += '\n<span class="prompt">❯ </span><span class="caret"></span>';
+  };
+</script>
+</body>
+</html>
