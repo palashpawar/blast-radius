@@ -1,0 +1,131 @@
+modules:
+  jira:issuePanel:
+    - key: blast-radius-panel
+      resource: panel
+      resolver:
+        function: resolver
+      render: native
+      title: Blast Radius
+      icon: resource:icons;radius.svg
+
+  rovo:agent:
+    - key: blast-radius-agent
+      name: Blast Radius
+      description: >
+        Tells you what a change will hit before it ships: linked services, past
+        incidents on the same surface, dependent work, at-risk epics, and who to
+        loop in.
+      icon: resource:icons;radius.svg
+      prompt: resource:agent-prompt;agent-prompt.md
+      conversationStarters:
+        - What's the blast radius of this issue?
+        - Has anything like this broken production before?
+        - Who should review this change?
+      followUpPrompt: Suggest the single most useful next step to de-risk this change.
+      actions:
+        - analyze-blast-radius
+        - find-related-incidents
+        - who-to-notify
+        - post-blast-radius-comment
+
+  rovo:mcp:
+    - key: blast-radius-mcp
+      name: Blast Radius
+      tools:
+        - analyze-blast-radius
+        - find-related-incidents
+        - who-to-notify
+
+  action:
+    - key: analyze-blast-radius
+      name: Analyze blast radius
+      function: analyzeAction
+      actionVerb: GET
+      description: >
+        Compute the blast radius of a Jira work item: risk score with the
+        factors behind it, affected services and components, related past
+        incidents, dependent and concurrent work, at-risk parent epics, and the
+        people to notify.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The Jira work item key, e.g. PAY-142.
+    - key: find-related-incidents
+      name: Find related incidents
+      function: incidentsAction
+      actionVerb: GET
+      description: >
+        List past and open incidents that touched the same services or
+        components as a Jira work item, ranked by relevance (overlap, severity
+        and recency).
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The Jira work item key, e.g. PAY-142.
+    - key: who-to-notify
+      name: Who to notify
+      function: notifyAction
+      actionVerb: GET
+      description: >
+        List the people who should review or be told about a change to a Jira
+        work item, each with the reason (component lead, incident responder,
+        owner of dependent work, epic owner).
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The Jira work item key, e.g. PAY-142.
+    - key: post-blast-radius-comment
+      name: Post blast radius comment
+      function: commentAction
+      actionVerb: CREATE
+      description: >
+        Post the blast radius report as a comment on the Jira work item.
+      inputs:
+        issueKey:
+          title: Issue key
+          type: string
+          required: true
+          description: The Jira work item key, e.g. PAY-142.
+
+  function:
+    - key: resolver
+      handler: index.resolver
+    - key: analyzeAction
+      handler: index.analyzeAction
+    - key: incidentsAction
+      handler: index.incidentsAction
+    - key: notifyAction
+      handler: index.notifyAction
+    - key: commentAction
+      handler: index.commentAction
+
+resources:
+  - key: panel
+    path: src/frontend/index.jsx
+  - key: agent-prompt
+    path: prompts
+  - key: icons
+    path: static/icons
+
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/ad069c60-c61c-47d4-9e97-0bf1ded23484
+
+permissions:
+  scopes:
+    - read:jira-work
+    - write:jira-work
+    - read:jira-user
+    - read:graph:issue:jira
+    - read:graph:user:atlassian
+    - read:graph:pull-request:external
+    - read:graph:repository:external
+    - read:graph:service:external
+    - read:graph:deployment:external

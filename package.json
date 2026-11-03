@@ -1,0 +1,23 @@
+{
+  "name": "blast-radius",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Forge app for Jira: see what a change will hit before it ships.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "forge lint",
+    "seed": "node scripts/seed.mjs",
+    "register-queries": "node scripts/register-queries.mjs"
+  },
+  "dependencies": {
+    "@forge/api": "^6.0.0",
+    "@forge/bridge": "^5.0.0",
+    "@forge/react": "^11.0.0",
+    "@forge/resolver": "^1.6.0",
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}
